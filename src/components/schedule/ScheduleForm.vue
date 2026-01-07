@@ -70,6 +70,8 @@ import useTrainClassStore from '../../store/trainClass/trainClass-store';
 import useTrainStationStore from '../../store/trainStation/trainStation-store';
 import useScheduleStore from '../../store/schedule/schedule-store';
 
+import useUpsertData from '../../hooks/upsert-data';
+
 const { id } = defineProps(['id']);
 
 const router = useRouter();
@@ -78,52 +80,25 @@ const trainClassStore = useTrainClassStore();
 const trainStationStore = useTrainStationStore();
 const scheduleStore = useScheduleStore();
 
+const { submit,validationMessages,input,closeDialog } = useUpsertData({ store: scheduleStore, backlink: '/schedules', keyName: 'id' });
+
 const trainDropdown = ref([]);
 const classDropdown = ref([]);
 const stationDropdown = ref([]);
-const validationMessages = ref({});
-const input = ref({});
-
-const closeDialog = () => {
-    router.push('/schedules');
-};
-
-const setValidation = (validations) => {
-    validationMessages.value = {};
-    for (let validation of validations) {
-        if (!validation.field) {
-            validationMessages.value.object = validation.defaultMessage;
-        }
-        if (!validationMessages.value[validation.field]) {
-            validationMessages.value[validation.field] = [];
-        }
-        validationMessages.value[validation.field].push(validation.defaultMessage);
-    }
-};
-
-const submit = async () => {
-    const keyName = 'id';
-    if (id) input.value[keyName] = id;
-    const payload = input.value;
-    const { status, data } = await scheduleStore.upsert({
-        payload, keyName
-    });
-    if (status === 200 || status === 201) {
-        scheduleStore.refreshGrid();
-        router.push('/schedules');
-    } else if (status === 422) {
-        setValidation(data);
-    }
-};
 
 onBeforeMount(async () => {
-    trainDropdown.value = await trainStore.getDropdown();
-    classDropdown.value = await trainClassStore.getDropdown();
-    stationDropdown.value = await trainStationStore.getDropdown();
+    const [trains, classes, stations] = await Promise.all([
+        trainStore.getDropdown(),
+        trainClassStore.getDropdown(),
+        trainStationStore.getDropdown()
+    ]);
+    trainDropdown.value = trains;
+    classDropdown.value = classes;
+    stationDropdown.value = stations;
     if (id) {
         input.value = await scheduleStore.findOne(id);
         if (!input.value) {
-            router.push('/notFound')
+            router.push('/notFound');
         }
     }
 })

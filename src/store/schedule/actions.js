@@ -21,11 +21,15 @@ export default {
         this.setPage(pageNumber + 1);
         this.setTotalPages(totalPages);
     },
-    async upsert({ payload, keyName }) {
-        let method = 'post';
-        if (payload[keyName]) {
-            method = 'put';
-        }
+    // async upsert({ payload, keyName }) {
+    //     let method = 'post';
+    //     if (payload[keyName]) {
+    //         method = 'put';
+    //     }
+    //     const response = await axios[method](`/schedule`, payload);
+    //     return response;
+    // },
+        async upsert( payload, method ) {
         const response = await axios[method](`/schedule`, payload);
         return response;
     },

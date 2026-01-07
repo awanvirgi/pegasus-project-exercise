@@ -56,7 +56,7 @@ const arrStation = ref('');
 
 const goTo = (link) => {
     router.push(link);
-}
+};
 
 const formatDatetime = (date, durationInMinutes) => {
     let newDate = new Date(date);
@@ -66,13 +66,13 @@ const formatDatetime = (date, durationInMinutes) => {
     const formater = Intl.DateTimeFormat("id-ID", {
         dateStyle: 'full',
         timeStyle: 'short'
-    })
+    });
     return formater.format(newDate).replace('pukul', '-').replace('.', ':');
-}
+};
 
 const formatCurrency = (localeCode, currencyFormat, price) => {
     return Intl.NumberFormat(localeCode, { style: 'currency', currency: currencyFormat }).format(price);
-}
+};
 
 
 const arrTime = computed(() => formatDatetime(props.departureTime, props.duration));
@@ -80,31 +80,35 @@ const deptTime = computed(() => formatDatetime(props.departureTime));
 const currencyId = computed(() => formatCurrency('id-ID', 'IDR', props.cost));
 
 onBeforeMount(async () => {
+    const [trainData, trainClassData, schedulePassengerData, deptStationData, arrStattionData] = await Promise.all([
+        trainStore.findOne(props.trainCode),
+        trainClassStore.findOne(props.trainClassCode),
+        schedulePassengerStore.getTotalElements(props.id),
+        trainStationStore.getName(props.departureStationId),
+        trainStationStore.getName(props.arrivalStationId)
+    ]);
+    train.value = trainData;
+    trainClass.value = trainClassData.name;
+    currentPassenger.value = schedulePassengerData;
+    deptStation.value = deptStationData;
+    arrStation.value = arrStattionData;
+});
+
+watch(() => props.trainCode, async () => {
     train.value = await trainStore.findOne(props.trainCode);
+});
+
+watch(() => props.trainClassCode, async () => {
     const { name } = await trainClassStore.findOne(props.trainClassCode);
     trainClass.value = name;
-    currentPassenger.value = await schedulePassengerStore.getTotalElements(props.id);
-    deptStation.value = await trainStationStore.getName(props.departureStationId);
+});
+
+watch(() => props.arrivalStationId, async () => {
     arrStation.value = await trainStationStore.getName(props.arrivalStationId);
-})
+});
 
-watch(()=>props.trainCode, async () => {
-    train.value = await trainStore.findOne(props.trainCode);
-})
-
-watch(()=>props.trainClassCode, async () => {
-    const { name } = await trainClassStore.findOne(props.trainClassCode);
-    trainClass.value = name;
-})
-
-watch(()=>props.arrivalStationId, async () => {
-    arrStation.value = await trainStationStore.getName(props.arrivalStationId);
-})
-
-watch(()=>props.departureStationId, async () => {
+watch(() => props.departureStationId, async () => {
     deptStation.value = await trainStationStore.getName(props.departureStationId);
 })
 
 </script>
-
-<style lang="scss" scoped></style>

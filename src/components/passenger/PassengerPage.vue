@@ -26,20 +26,15 @@ import PassengerSearchCard from './PassengerSearchCard.vue';
 
 import usePassengerStore from '../../store/passenger/passenger-store';
 import usePageData from '../../hooks/page-data';
-
-// import { onBeforeMount } from 'vue';
-// import { useRouter } from 'vue-router';
+import { onBeforeMount } from 'vue';
 
 const store = usePassengerStore();
-// const router = useRouter();
-
-store.refreshGrid();
 
 const { grid, searchBy, selectPage, firstPage, lastPage } = usePageData({ store });
-// const toInsertForm = () => { //todo Refactor
-//     router.push('/passengers/form');
-// }
 
+onBeforeMount(() => {
+    store.refreshGrid();
+});
 
 </script>
 

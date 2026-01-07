@@ -36,50 +36,17 @@
 </template>
 
 <script setup>
-import { onBeforeMount, ref } from 'vue';
+import { onBeforeMount } from 'vue';
 import { useRouter } from 'vue-router';
 
 import useTrainStore from '../../store/train/train-store';
+import useUpsertData from '../../hooks/upsert-data';
 
 const { id } = defineProps(['id']);
 
-const input = ref({});
-const validationMessages = ref({});
-
 const trainStore = useTrainStore();
+const { closeDialog, validationMessages, input, submit } = useUpsertData({ store: trainStore, id, backlink: '/trains', keyName: 'code' });
 const router = useRouter();
-
-const closeDialog = () => {
-    router.push('/trains');
-};
-
-const setValidation = (validations) => {
-    validationMessages.value = {};
-    for (let validation of validations) {
-        if (!validation.field) {
-            validationMessages.value.object = validation.defaultMessage;
-        }
-        if (!validationMessages.value[validation.field]) {
-            validationMessages.value[validation.field] = [];
-        }
-        validationMessages.value[validation.field].push(validation.defaultMessage);
-    }
-};
-
-const submit = async () => {
-    const payload = input.value;
-    let method = 'post';
-    if (id) method = 'put';
-    const { status, data } = await trainStore.upsert(
-        payload, method
-    );
-    if (status === 200 || status === 201) {
-        trainStore.refreshGrid();
-        router.push('/trains');
-    } else if (status === 422) {
-        setValidation(data);
-    }
-};
 
 onBeforeMount(async () => {
     if (id) {

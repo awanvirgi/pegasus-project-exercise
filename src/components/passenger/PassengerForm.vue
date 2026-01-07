@@ -53,49 +53,15 @@
 
 <script setup>
 import { onBeforeMount, ref } from 'vue';
-import { useRouter } from 'vue-router';
 
 import usePassengerStore from '../../store/passenger/passenger-store';
+import useUpsertData from '../../hooks/upsert-data';
 
 const { id } = defineProps(['id']);
 
 const passengerStore = usePassengerStore();
-const router = useRouter();
 
-const input = ref({});
-const validationMessages = ref({});
-
-const closeDialog = () => {
-    router.push('/passengers');
-};
-
-const setValidation = (validations) => {
-    validationMessages.value = {};
-    for (let validation of validations) {
-        if (!validation.field) {
-            validationMessages.value.object = validation.defaultMessage;
-        }
-        if (!validationMessages.value[validation.field]) {
-            validationMessages.value[validation.field] = [];
-        }
-        validationMessages.value[validation.field].push(validation.defaultMessage);
-    }
-};
-
-const submit = async () => {
-    const payload = input.value;
-    let method = 'post';
-    if (id) method = 'put';
-    const { status, data } = await passengerStore.upsert(
-        payload, method
-    );
-    if (status === 200 || status === 201) {
-        passengerStore.refreshGrid();
-        router.push('/passengers');
-    } else if (status === 422) {
-        setValidation(data);
-    }
-};
+const {input,submit,validationMessages,closeDialog } = useUpsertData({ store: passengerStore, id, backlink: '/passengers', keyName: 'username' });
 
 onBeforeMount(async () => {
     if (id) {

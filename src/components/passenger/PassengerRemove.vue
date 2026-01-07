@@ -2,7 +2,7 @@
     <base-modal>
         <base-dialog :title="'Delete Passenger'" :closeDialog="closeDialog">
             <p>
-                Are you sure you want to delete this Passenger? All this schedule's passengers will also be removed.
+                Are you sure you want to Deleting this passenger will remove them from all assigned schedules.
             </p>
             <base-button-container>
                 <base-button type="button" @click="removeData">

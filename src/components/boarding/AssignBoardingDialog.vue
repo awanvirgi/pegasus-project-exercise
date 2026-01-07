@@ -21,7 +21,8 @@
 <script setup>
 import { useRouter } from 'vue-router';
 
-import useStore from '../../store/schedulePassenger/schedulePassenger-store';
+import useStore from '../../store/boarding/boarding-store.js';
+
 
 const props = defineProps(['username', 'id']);
 
@@ -40,10 +41,8 @@ const assignSchdule = async () => {
     };
     const { data, status } = await store.assign(payload);
     if (status === 201 || status === 200) {
+        store.refreshGrid(props.username)
         closeDialog();
-    } else {
-        console.log(status)
-        console.error(data);
     }
 };
 </script>

@@ -20,24 +20,24 @@
 import ScheduleSearchCard from '../schedule/ScheduleSearchCard.vue';
 import BoardingScheduleRow from './BoardingScheduleRow.vue';
 
-import useScheduleStore from '../../store/schedule/schedule-store.js';
 import usePassengerStore from '../../store/passenger/passenger-store.js';
+import useBoardingStore from '../../store/boarding/boarding-store.js';
 
 import usePageData from '../../hooks/page-data.js';
 
 import { onBeforeMount } from 'vue';
 import { useRoute } from 'vue-router';
 
-const props = defineProps(['username']);
+const props = defineProps(['username','id']);
 
-const store = useScheduleStore();
+const store = useBoardingStore();
 const route = useRoute();
 const passengerStore = usePassengerStore();
 
-const { grid, searchBy, firstPage, lastPage, selectPage } = usePageData({ store });
+const { grid, searchBy, firstPage, lastPage, selectPage } = usePageData({ store,id:props.username });
 
 onBeforeMount(async () => {
-    store.refreshGrid();
+    store.refreshGrid(props.username);
     const { username, firstName, lastName } = await passengerStore.findOne(props.username);
     route.meta.subTitle.value = `${firstName} ${lastName} (${username})`;
 })

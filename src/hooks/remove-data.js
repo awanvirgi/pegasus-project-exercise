@@ -17,11 +17,13 @@ export default ({ store, backlink, payload, refreshParam }) => {
         } else if (status === 409) {
             Swal.fire({
                 title: 'Error!',
-                text: 'Error: Data is in use.',
+                text: data,
                 icon: 'error',
                 confirmButtonText: 'Confirm'
             });
-            closeDialog()
+            closeDialog();
+        } else {
+            console.error(data);
         }
     };
     return {
