@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import actions from "./actions";
 
-const useStore = defineStore('schedulePassanger-store', {
+const useStore = defineStore('schedulePassenger-store', {
     state() {
         return {
             grid: [],

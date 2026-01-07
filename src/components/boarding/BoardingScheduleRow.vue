@@ -12,7 +12,7 @@
             <base-label-row :label="'Arr. Station'">{{ arrStation }}</base-label-row>
             <base-label-row :label="'Arr. Time'">{{ arrTime }}</base-label-row>
             <base-button-container>
-                <base-button @click="goTo(`/passengers/agnes73/boarding/assign/${id}`)" type="button">
+                <base-button @click="goTo(`/passengers/${username}/boarding/assign/${id}`)" type="button">
                     <i class="fas fa-plus"></i>
                     <span>Assign</span>
                 </base-button>

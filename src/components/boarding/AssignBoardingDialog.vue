@@ -43,6 +43,8 @@ const assignSchdule = async () => {
     if (status === 201 || status === 200) {
         store.refreshGrid(props.username)
         closeDialog();
+    }else{
+        console.error(data)
     }
 };
 </script>

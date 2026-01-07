@@ -2,7 +2,8 @@
     <base-modal>
         <base-dialog :title="'Delete Passenger'" :closeDialog="closeDialog">
             <p>
-                Are you sure you want to Deleting this passenger will remove them from all assigned schedules.
+                Are you sure you want to delete this passenger? This action will also remove them from all assigned
+                schedules.
             </p>
             <base-button-container>
                 <base-button type="button" @click="removeData">
@@ -26,7 +27,7 @@ const { id } = defineProps(['id']);
 
 const store = usePassengerStore();
 
-const { removeData, closeDialog } = useRemoveData({ store, backlink: '/passengers', payload:id })
+const { removeData, closeDialog } = useRemoveData({ store, backlink: '/passengers', payload: id })
 
 </script>
 
