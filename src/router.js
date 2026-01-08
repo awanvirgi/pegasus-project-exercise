@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import { ref } from 'vue';
 
 import TheLayout from './components/layout/TheLayout.vue';
 import SchedulePage from './components/schedule/SchedulePage.vue';
@@ -32,7 +31,6 @@ const router = createRouter({
                     alias: '/',
                     meta: {
                         title: 'Schedules',
-                        subTitle: ref('')
                     },
                     children: [
                         {
@@ -52,7 +50,6 @@ const router = createRouter({
                     path: '/trains',
                     meta: {
                         title: 'Trains',
-                        subTitle: ref('')
                     },
                     children: [
                         {
@@ -72,7 +69,6 @@ const router = createRouter({
                     path: '/passengers',
                     meta: {
                         title: 'Passengers',
-                        subTitle: ref('')
                     },
                     children: [
                         {
@@ -93,7 +89,6 @@ const router = createRouter({
                     props: true,
                     meta: {
                         title: 'Boarding for',
-                        subTitle: ref('')
                     },
                     children: [
                         {
@@ -109,7 +104,6 @@ const router = createRouter({
                     props: true,
                     meta: {
                         title: 'Passengers of ',
-                        subTitle: ref('')
                     },
                     children: [
                         {

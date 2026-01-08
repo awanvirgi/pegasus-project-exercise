@@ -24,10 +24,12 @@ import useSchedulePassengerStore from '../../store/schedulePassenger/schedulePas
 import useTrainStationStore from '../../store/trainStation/trainStation-store';
 import useTrainStore from '../../store/train/train-store';
 import useScheduleStore from '../../store/schedule/schedule-store';
+import useUserInterfaceStore from '../../store/userInterface/userInterface-store';
 
-import { useRoute, useRouter } from 'vue-router';
+import { useRouter } from 'vue-router';
 
-import { onBeforeMount } from 'vue';
+import { onBeforeMount, onUnmounted } from 'vue';
+import { storeToRefs } from 'pinia';
 
 const { id, username } = defineProps(['id', 'username']);
 
@@ -35,8 +37,10 @@ const schedulePassengerStore = useSchedulePassengerStore();
 const trainStationStore = useTrainStationStore();
 const trainStore = useTrainStore();
 const scheduleStore = useScheduleStore();
+const userInterfaceStore = useUserInterfaceStore();
 
-const route = useRoute();
+const { subTitle } = storeToRefs(userInterfaceStore);
+
 const router = useRouter();
 
 const { grid, selectPage, lastPage, firstPage } = usePageData({ store: schedulePassengerStore, id });
@@ -51,8 +55,11 @@ onBeforeMount(async () => {
         trainStore.getName(trainCode),
         trainStationStore.getName(arrivalStationId)
     ]);
-    route.meta.subTitle.value = `${trainName} to ${stationName}`;
-})
+    subTitle.value = `${trainName} to ${stationName}`;
+});
+onUnmounted(() => {
+    subTitle.value = '';
+});
 </script>
 
 <style lang="scss" scoped></style>

@@ -14,22 +14,14 @@ export default ({ store, backlink, payload, refreshParam }) => {
         if (status === 204 || status === 200) {
             store.refreshGrid(refreshParam);
             closeDialog();
-        } else if (status === 409) {
+        } else {
             Swal.fire({
-                title: 'Error!',
+                title: `Error! (${status})`,
                 text: data,
                 icon: 'error',
                 confirmButtonText: 'Confirm'
             });
             closeDialog();
-        } else {
-            Swal.fire({
-                title: 'Error!',
-                text: data,
-                icon: 'error',
-                confirmButtonText: 'Confirm'
-            });
-            console.error(data);
         }
     };
     return {

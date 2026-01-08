@@ -1,5 +1,5 @@
 <template>
-    <div class="base-pagination">
+    <div class="base-pagination" v-if="totalPages">
         <div class="info">Page {{ page }} of {{ totalPages }}</div>
         <base-button-container>
             <base-button @click="firstPage" v-if="page !== 1 && page - 1 !== 1" type="button">

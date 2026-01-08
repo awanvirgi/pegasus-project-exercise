@@ -37,7 +37,7 @@ export default ({ store, id, backlink, keyName = 'id' }) => {
             setValidation(data);
         } else {
             Swal.fire({
-                title: 'Error!',
+                title: `Error! (${status})`,
                 text: data,
                 icon: 'error',
                 confirmButtonText: 'Confirm'

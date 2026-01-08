@@ -1,7 +1,7 @@
 <template>
     <div>
         <the-navigation></the-navigation>
-        <h1 class="title">{{ route.meta.title }} <span class="header">{{ route.meta.subTitle }}</span></h1>
+        <h1 class="title">{{ route.meta.title }} <span class="header">{{ subTitle }}</span></h1>
         <main class="main-content">
             <router-view></router-view>
         </main>
@@ -10,7 +10,13 @@
 
 <script setup>
 import TheNavigation from './TheNavigation.vue';
+
+import useUserInterfaceStore from '../../store/userInterface/userInterface-store';
+const userInterfaceStore = useUserInterfaceStore();
+const { subTitle } = storeToRefs(userInterfaceStore);
+
 import { useRoute } from 'vue-router';
+import { storeToRefs } from 'pinia';
 
 const route = useRoute()
 

@@ -46,7 +46,7 @@ const assignSchdule = async () => {
         closeDialog();
     } else {
         Swal.fire({
-            title: 'Error!',
+            title: `Error! (${status})`,
             text: data,
             icon: 'error',
             confirmButtonText: 'Confirm'

@@ -10,16 +10,16 @@ export default function configuration(router) {
         response => response,
         error => {
             if (error.status >= 500 && error.status <= 599) {
-                router.push('/serverError');
-                return error.response;
+                router.replace('/serverError');
+                return Promise.reject(error);
             }
             if (error.status === 404) {
-                router.push('/notFound');
-                return error.response;
+                router.replace('/notFound');
+                return Promise.reject(error);
             }
             if (!error.status) {
-                router.push('/serverError');
-                return;
+                router.replace('/serverError');
+                return Promise.reject(error);
             }
             return Promise.reject(error);
         }

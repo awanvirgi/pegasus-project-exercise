@@ -22,18 +22,23 @@ import BoardingScheduleRow from './BoardingScheduleRow.vue';
 
 import usePassengerStore from '../../store/passenger/passenger-store.js';
 import useBoardingStore from '../../store/boarding/boarding-store.js';
+import useUserInterfaceStore from '../../store/userInterface/userInterface-store';
 
 import usePageData from '../../hooks/page-data.js';
 
-import { onBeforeMount } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { onBeforeMount, onUnmounted } from 'vue';
+import { useRouter } from 'vue-router';
+import { storeToRefs } from 'pinia';
 
 const props = defineProps(['username', 'id']);
 
 const store = useBoardingStore();
-const route = useRoute();
 const router = useRouter();
 const passengerStore = usePassengerStore();
+
+const userInterfaceStore = useUserInterfaceStore();
+
+const { subTitle } = storeToRefs(userInterfaceStore);
 
 const { grid, searchBy, firstPage, lastPage, selectPage } = usePageData({ store, id: props.username });
 
@@ -43,8 +48,12 @@ onBeforeMount(async () => {
     if (!username) {
         router.push('/notFound');
     }
-    route.meta.subTitle.value = `${firstName} ${lastName ? lastName : ''} (${username})`;
-})
+    subTitle.value = `${firstName} ${lastName ? lastName : ''} (${username})`;
+});
+
+onUnmounted(() => {
+    subTitle.value = '';
+});
 
 </script>
 
