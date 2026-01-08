@@ -13,7 +13,7 @@
     text-align: right;
 }
 
-.button-container.left{
+.button-container.left {
     text-align: left;
 }
 

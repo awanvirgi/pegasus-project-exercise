@@ -60,7 +60,6 @@ button.activated-base-button {
 @media screen and (max-width: 1024px) {
     .base-button:first-child {
         margin-left: 5px;
-
     }
 }
 </style>
