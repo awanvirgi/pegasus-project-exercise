@@ -8,8 +8,6 @@ import configureAxios from './axios-config';
 
 import './assets/style/font-awesome.css';
 import './assets/style/normalize.css';
-// import './assets/style/pegasus-style.css'
-// import './assets/style/responsive.css'
 
 import BaseLogo from './components/ui-element/BaseLogo.vue';
 import BaseButton from './components/ui-element/BaseButton.vue';

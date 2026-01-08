@@ -47,7 +47,7 @@ const router = useRouter();
 
 const props = defineProps(['userName', 'firstName', 'lastName', 'gender', 'birthDate', 'idNumber', 'address']);
 
-const fullName = computed(() => `${props.firstName} ${props.lastName}`);
+const fullName = computed(() => `${props.firstName} ${props.lastName?props.lastName:''}`);
 
 const genderName = computed(() => {
     if (props.gender === 'F') {

@@ -16,7 +16,7 @@ const props = defineProps(['username', 'firstName', 'lastName', 'id']);
 
 const router = useRouter();
 
-const fullname = computed(() => `${props.firstName} ${props.lastName}`);
+const fullname = computed(() => `${props.firstName} ${props.lastName?props.lastName:''}`);
 
 const goTo = (link) => {
     router.push(link);

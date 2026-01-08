@@ -53,15 +53,16 @@
 
 <script setup>
 import { onBeforeMount, ref } from 'vue';
-
 import usePassengerStore from '../../store/passenger/passenger-store';
 import useUpsertData from '../../hooks/upsert-data';
+import { useRouter } from 'vue-router';
 
 const { id } = defineProps(['id']);
 
 const passengerStore = usePassengerStore();
+const router = useRouter();
 
-const {input,submit,validationMessages,closeDialog } = useUpsertData({ store: passengerStore, id, backlink: '/passengers', keyName: 'username' });
+const { input, submit, validationMessages, closeDialog } = useUpsertData({ store: passengerStore, id, backlink: '/passengers', keyName: 'username' });
 
 onBeforeMount(async () => {
     if (id) {
@@ -69,7 +70,6 @@ onBeforeMount(async () => {
         if (!input.value) {
             router.push('/notFound');
         }
-
     }
 });
 </script>

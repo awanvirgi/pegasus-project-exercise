@@ -11,9 +11,9 @@ export default {
         this.page = page ? page : 1;
     },
     async refreshGrid() {
-        let time = ''
-        if(this.departureTime){
-            time = new Date(this.departureTime).toISOString().split('T')[0]
+        let time = '';
+        if (this.departureTime) {
+            time = new Date(this.departureTime).toISOString().split('T')[0];
         }
         const response = await axios.get(`/schedule?trainName=${this.trainName}&departureStation=${this.departureStation}&departureTime=${time}&classCode=${this.classCode}&page=${this.page}`);
         const { content, pageable: { pageNumber }, totalPages } = response.data;
@@ -21,15 +21,7 @@ export default {
         this.setPage(pageNumber + 1);
         this.setTotalPages(totalPages);
     },
-    // async upsert({ payload, keyName }) {
-    //     let method = 'post';
-    //     if (payload[keyName]) {
-    //         method = 'put';
-    //     }
-    //     const response = await axios[method](`/schedule`, payload);
-    //     return response;
-    // },
-        async upsert( payload, method ) {
+    async upsert(payload, method) {
         const response = await axios[method](`/schedule`, payload);
         return response;
     },

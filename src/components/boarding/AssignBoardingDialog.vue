@@ -20,6 +20,7 @@
 
 <script setup>
 import { useRouter } from 'vue-router';
+import Swal from 'sweetalert2';
 
 import useStore from '../../store/boarding/boarding-store.js';
 
@@ -41,10 +42,16 @@ const assignSchdule = async () => {
     };
     const { data, status } = await store.assign(payload);
     if (status === 201 || status === 200) {
-        store.refreshGrid(props.username)
+        store.refreshGrid(props.username);
         closeDialog();
-    }else{
-        console.error(data)
+    } else {
+        Swal.fire({
+            title: 'Error!',
+            text: data,
+            icon: 'error',
+            confirmButtonText: 'Confirm'
+        });
+        closeDialog()
     }
 };
 </script>

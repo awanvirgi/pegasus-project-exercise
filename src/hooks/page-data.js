@@ -16,10 +16,10 @@ export default ({ store, id }) => {
     const firstPage = () => selectPage(1);
     const lastPage = () => selectPage(store.totalPages);
 
-
     return {
         grid, searchBy, selectPage, firstPage, lastPage
     };
+
 
 
 };

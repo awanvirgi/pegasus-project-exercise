@@ -31,14 +31,14 @@ defineProps(
     }
 );
 import useTrainClassStore from '../../store/trainClass/trainClass-store';
-import useScheduleStore from '../../store/schedule/schedule-store';
+import useBoardingStore from '../../store/boarding/boarding-store';
 import { onBeforeMount, ref } from 'vue';
 import { storeToRefs } from 'pinia';
 
 const trainClassStore = useTrainClassStore();
-const scheduleStore = useScheduleStore();
+const boardingStore = useBoardingStore();
 
-const { trainName, departureTime, departureStation, classCode } = storeToRefs(scheduleStore);
+const { trainName, departureTime, departureStation, classCode } = storeToRefs(boardingStore);
 
 const classDropdown = ref([]);
 

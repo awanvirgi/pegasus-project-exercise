@@ -29,7 +29,7 @@ import { useRoute, useRouter } from 'vue-router';
 
 import { onBeforeMount } from 'vue';
 
-const { id,username } = defineProps(['id','username']);
+const { id, username } = defineProps(['id', 'username']);
 
 const schedulePassengerStore = useSchedulePassengerStore();
 const trainStationStore = useTrainStationStore();
@@ -47,10 +47,12 @@ onBeforeMount(async () => {
     if (!trainCode || !arrivalStationId) {
         return router.push("/notFound");
     }
-    const stationName = await trainStationStore.getName(arrivalStationId);
-    const trainName = await trainStore.getName(trainCode);
+    const [trainName, stationName] = await Promise.all([
+        trainStore.getName(trainCode),
+        trainStationStore.getName(arrivalStationId)
+    ]);
     route.meta.subTitle.value = `${trainName} to ${stationName}`;
-});
+})
 </script>
 
 <style lang="scss" scoped></style>

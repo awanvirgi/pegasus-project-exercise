@@ -23,6 +23,12 @@ export default ({ store, backlink, payload, refreshParam }) => {
             });
             closeDialog();
         } else {
+            Swal.fire({
+                title: 'Error!',
+                text: data,
+                icon: 'error',
+                confirmButtonText: 'Confirm'
+            });
             console.error(data);
         }
     };

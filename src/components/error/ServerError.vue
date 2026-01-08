@@ -33,4 +33,7 @@ p {
     color: #006266;
     font-size: 16px;
 }
+p:last-of-type{
+    margin-bottom: 40px;
+}
 </style>

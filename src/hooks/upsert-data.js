@@ -1,3 +1,4 @@
+import Swal from "sweetalert2";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 
@@ -31,9 +32,17 @@ export default ({ store, id, backlink, keyName = 'id' }) => {
         const { status, data } = await store.upsert(input.value, method);
         if (status === 200 || status === 201) {
             await store.refreshGrid();
-            closeDialog()
+            closeDialog();
         } else if (status === 422) {
             setValidation(data);
+        } else {
+            Swal.fire({
+                title: 'Error!',
+                text: data,
+                icon: 'error',
+                confirmButtonText: 'Confirm'
+            });
+            closeDialog();
         }
     };
     return {

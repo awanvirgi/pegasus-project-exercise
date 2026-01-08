@@ -1,6 +1,6 @@
 <template>
     <div>
-        <schedule-search-card :event="searchBy"></schedule-search-card>
+        <boarding-search-card :event="searchBy"></boarding-search-card>
         <boarding-schedule-row v-for="rowData in grid" :key="rowData.id" :schedule="rowData" :id="rowData.id"
             :train-code="rowData.trainCode" :train-class-code="rowData.trainClassCode"
             :departure-station-id="rowData.departureStationId" :arrival-station-id="rowData.arrivalStationId"
@@ -17,7 +17,7 @@
 </template>
 
 <script setup>
-import ScheduleSearchCard from '../schedule/ScheduleSearchCard.vue';
+import BoardingSearchCard from './BoardingSearchCard.vue';
 import BoardingScheduleRow from './BoardingScheduleRow.vue';
 
 import usePassengerStore from '../../store/passenger/passenger-store.js';
@@ -26,20 +26,24 @@ import useBoardingStore from '../../store/boarding/boarding-store.js';
 import usePageData from '../../hooks/page-data.js';
 
 import { onBeforeMount } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 
-const props = defineProps(['username','id']);
+const props = defineProps(['username', 'id']);
 
 const store = useBoardingStore();
 const route = useRoute();
+const router = useRouter();
 const passengerStore = usePassengerStore();
 
-const { grid, searchBy, firstPage, lastPage, selectPage } = usePageData({ store,id:props.username });
+const { grid, searchBy, firstPage, lastPage, selectPage } = usePageData({ store, id: props.username });
 
 onBeforeMount(async () => {
     store.refreshGrid(props.username);
     const { username, firstName, lastName } = await passengerStore.findOne(props.username);
-    route.meta.subTitle.value = `${firstName} ${lastName} (${username})`;
+    if (!username) {
+        router.push('/notFound');
+    }
+    route.meta.subTitle.value = `${firstName} ${lastName ? lastName : ''} (${username})`;
 })
 
 </script>
